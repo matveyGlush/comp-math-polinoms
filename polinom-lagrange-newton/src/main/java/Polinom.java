@@ -53,6 +53,29 @@ public class Polinom {
         }
     }
 
+    // создаем полином из массива коэфициентов
+    // используется для создания базиса
+    public Polinom(double[][] monoms) {
+        // Создаем переменную current типа Monom и присваиваем ей значение null
+        Monom current = null;
+        // Создаем цикл, проходящий по всем элементам массива коэффициентов
+        for (double[] monom : monoms) {
+            // Проверяем, не является ли текущий коэффициент равным нулю
+            if (monom[0] != 0) {
+                // Если переменная head равна null, создаем первый элемент списка Monom с текущим коэффициентом
+                if (head == null) {
+                    head = new Monom(monom[0], (int) monom[1]);
+                    // Присваиваем значение переменной current созданному элементу списка
+                    current = head;
+                } else {
+                    // Иначе, создаем новый элемент списка Monom с текущим коэффициентом и добавляем его в конец списка
+                    current.next = new Monom(monom[0], (int) monom[1]);
+                    current = current.next;
+                }
+            }
+        }
+    }
+
     //копирующий конструктор
     public Polinom(Monom from) {
         // Создаем новый объект Monom и присваиваем его значению переменной head
@@ -161,24 +184,23 @@ public class Polinom {
         // создаем новый полином для результата умножения
         Polinom result = new Polinom();
 
+        // создаем первый моном в результат
+        result.head = new Monom(head.coeff * polinom.head.coeff, head.degree + polinom.head.degree);
+
         // начинаем итерироваться по мономам текущего полинома
         Monom current = head;
+
         while (current != null) {
             // итерируемся по мономам второго полинома
             Monom resultCurrent = result.head;
-            Monom polinomCurrent = polinom.head;
+            Monom polinomCurrent = current == head ? polinom.head.next : polinom.head;
 
             while (polinomCurrent != null) {
                 // определяем степень и коэффициент нового монома
                 int degree = current.degree + polinomCurrent.degree;
                 double coeff = current.coeff * polinomCurrent.coeff;
 
-                if (result.head == null) {
-                    // если результат пуст, то создаем первый моном
-                    result.head = new Monom(coeff, degree);
-                    resultCurrent = result.head;
-                    polinomCurrent = polinomCurrent.next;
-                } else if (resultCurrent.next == null) {
+                if (resultCurrent.next == null) {
                     // если новый моном имеет максимальную степень в результирующем полиноме, то добавляем его в конец
                     resultCurrent.next = new Monom(coeff, degree);
                     resultCurrent = resultCurrent.next;

@@ -16,7 +16,7 @@ public class Newton extends Interpolation{
 
         // цикл для вычисления всех коэффициентов полинома
         for (int i = 0; i < n - 1; i++) {
-            Polinom binom = new Polinom(new double[]{1, -grid.getX(i)}); // создание полинома-бинома
+            Polinom binom = new Polinom(new double[]{1, -grid.getX(i)}); // создание бинома
             // умножение полинома-базиса на полином-бином, потом умножение результата на соответствующую дельту,
             // в конце добавление нового слагаемого в полином
             polinom.add(new Polinom(basis.multiply(binom).getStart()).multiply(deltasY[i + 1]));
@@ -39,7 +39,7 @@ public class Newton extends Interpolation{
         for (int k = 1; k < n; k++) {
             // Вычисление новых значений разделенных разностей
             for (int i = k; i < n; i++) {
-                next[i] = (deltasY[i] - deltasY[i - 1]) / (grid.getX(i) - grid.getX(i - k));
+                next[i] = (deltasY[i-1] - deltasY[i]) / (grid.getX(i-k) - grid.getX(i));
             }
 
             // Обновление значений разделенных разностей

@@ -4,6 +4,20 @@ public class Main {
         init2();
         init3();
         init4();
+        init5();
+        init6();
+        initMultiply();
+    }
+
+    private static void initMultiply() {
+        double[][] polinom1Parametrs = { {1, 5}, {1, 4}, {1, 3}, {1, 2}, {1, 0}}; // {coeff, degree}
+        Polinom polinom1 = new Polinom(polinom1Parametrs);
+
+        double[][] polinom2Parametrs = { {1, 4}, {1, 1} };
+        Polinom polinom2 = new Polinom(polinom2Parametrs);
+
+        polinom2.multiply(polinom1);
+        polinom2.print();
     }
 
     // Инициализация первой сетки
@@ -22,7 +36,7 @@ public class Main {
             x[i] = a + step * i;
         }
         // создаем объект Grid для этой сетки
-        Grid grid = new Grid(x, o -> (o*o*o*o*o + 2*o*o*o*o - 3*o*o + 6));
+        Grid grid = new Grid(x, o -> (o*o*o*o*o + 37*o*o*o*o - 16*o + 1));
         // передаем объект Grid в метод initShared() для интерполяции
         initShared(grid, true);
     }
@@ -62,6 +76,48 @@ public class Main {
 
         Grid grid = new Grid(x, y);
         initShared(grid, false);
+    }
+
+    // Инициализация второй сетки
+    private static void init5() {
+        // начальная и конечная точки сетки
+        double a = 0;
+        double b = 5;
+        // количество точек в сетке
+        int count = 6;
+        // вычисляем расстояние между соседними точками
+        double step = 1;
+        // создаем массив точек на оси X
+        double[] x = new double[count];
+        // заполняем массив точек на оси X
+        for (int i = 0; i < x.length; i++) {
+            x[i] = a + step * i;
+        }
+        // создаем объект Grid для этой сетки
+        Grid grid = new Grid(x, o -> (Math.pow(o, 0.4)));
+        // передаем объект Grid в метод initShared() для интерполяции
+        initShared(grid, true); // ans 1.7796 x − 1.1059 x^2 + 0.38831 x^3 − 0.066345 x^4 + 0.0043460 x^5
+    }
+
+    // Инициализация первой сетки
+    private static void init6() {
+        // начальная и конечная точки сетки
+        double a = 0;
+        double b = 1;
+        // количество точек в сетке
+        int count = 6;
+        // вычисляем расстояние между соседними точками
+        double step = (b - a) / count;
+        // создаем массив точек на оси X
+        double[] x = new double[(int) ((b - a) / step)];
+        // заполняем массив точек на оси X
+        for (int i = 0; i < x.length; i++) {
+            x[i] = a + step * i;
+        }
+        // создаем объект Grid для этой сетки
+        Grid grid = new Grid(x, o -> (o*o*o*o*o*o*o + 2*o*o - 3*o + 6));
+        // передаем объект Grid в метод initShared() для интерполяции
+        initShared(grid, true);
     }
 
     private static void initShared(Grid grid, boolean withFun) {
