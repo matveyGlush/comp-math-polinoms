@@ -9,16 +9,18 @@ public class Main {
 
         // Gauss method
 //        MatrixGauss objMatrix = new MatrixGauss();
-//        objMatrix.receiveMatrixFromFile("C:\\Users\\matve\\IdeaProjects\\lab1_course2_mironov\\test_matrix\\testSuper2.txt");
+//        objMatrix.receiveMatrixFromFile("C:\\Users\\matve\\IdeaProjects\\test\\matrixSeidel.txt");
 //
 //        System.out.println("Your augmented matrix:");
 //        objMatrix.printMatrix();
 //        objMatrix.gaussSolution();
 //        objMatrix.printVector();
+//
+//        System.out.println();
 
         // Gauss Seidel method
         MatrixGaussSeidel gaussSeidel = new MatrixGaussSeidel();
-        gaussSeidel.receiveMatrixFromFile("C:\\Users\\matve\\IdeaProjects\\matrix-gauss-gaussSeidel\\test_matrix\\AnnSeidel.txt");
+        gaussSeidel.receiveMatrixFromFile("C:\\Users\\matve\\IdeaProjects\\test\\matrixSeidel.txt");
         System.out.println("Система:");
         gaussSeidel.print();
         System.out.println();

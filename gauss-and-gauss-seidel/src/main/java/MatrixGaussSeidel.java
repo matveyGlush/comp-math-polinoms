@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MatrixGaussSeidel {
@@ -97,10 +98,16 @@ public class MatrixGaussSeidel {
                 isFree[i] = true;
             }
 
-            // Получение порядка перестановки строк и проверка на ее успешность
-            if (getOrder(0, permutation, isFree, sums)) return 0;
-            else return order == null ? 2 : 1;
-
+            try {
+                // Получение порядка перестановки строк и проверка на ее успешность
+                if (getOrder(0, permutation, isFree, sums)) return 0;
+                else return order == null ? 2 : 1;
+            } catch (ResultException e) {
+                return e.getI();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return 0;
+            }
         } else {
             // Если на главной диагонали нет нулей
             // Проверка, является ли матрица СЛАУ совместной
@@ -111,20 +118,20 @@ public class MatrixGaussSeidel {
     /**
      * Метод для перебора всех возможных перестановок строк
      */
-    private boolean getOrder(int index, int[] permutation, boolean[] free, double[] sums) {
+    private boolean getOrder(int index, int[] permutation, boolean[] free, double[] sums) throws Exception {
+
         // Если это последняя строка, которую нужно переместить на главную диагональ
         if (index == dimension - 1) {
-            // Находим единственную строку, которую можно поместить на главную диагональ
             for (int i = 0; i < dimension; i++) {
                 if (free[i]) {
                     permutation[index] = i;
+                    short result = isSCC(sums, permutation);
+                    if (result == 0 || result == 1) {
+                        order = permutation;
+                        throw new ResultException(result);
+                    }
                     break;
                 }
-            }
-            // Проверяем, что на главной диагонали не окажется нулевого элемента
-            if ((Math.abs(matrix[permutation[index]][index]) > tolerance)) {
-                order = permutation; // Установка порядка перестановки строк
-                return isSCC(sums); // Проверка, является ли матрица СЛАУ совместной
             }
         } else {
             // Проходим по всем строкам, которые еще не были использованы, и пытаемся их использовать
@@ -167,6 +174,24 @@ public class MatrixGaussSeidel {
         return isSCC;
     }
 
+    private short isSCC(double[] sums, int[] perm) {
+        short isSCC = 1;
+        // Итерация по строкам матрицы
+        for (short i = 0; i < dimension; i++) {
+            // Вызов метода isRowSCC для каждой строки матрицы и получение результата
+            switch (isRowSCC(perm[i], i, sums)) {
+                case 0:
+                    isSCC = 0;
+                case 1:
+                    break;
+                case 2:
+                    return 2;
+            }
+        }
+        // Возвращаем значение флага isSCC
+        return isSCC;
+    }
+
     /**
      * Метод проверки достаточного условия сходимости для строки
      * @param rowId - индекс строки
@@ -175,7 +200,7 @@ public class MatrixGaussSeidel {
      */
     private int isRowSCC(int rowId, int diagonalId, double[] sums) {
 
-        double element = Math.abs(matrix[rowId][diagonalId]); // !!!!!!!!!
+        double element = Math.abs(matrix[rowId][diagonalId]);
 
         if (element > sums[rowId] - element + tolerance) {
             return 0;  // ДУС выполнена в полном объёме для строки (>)
@@ -213,7 +238,7 @@ public class MatrixGaussSeidel {
 
         // выполняем итерации до тех пор, пока не будет достигнуто максимальное количество итераций (10)
         // или не будет достигнута нужная точность
-        for (int i = 1; i < 15; i++) {
+        for (int i = 1; i < 25; i++) {
 
             // выполняем новую итерацию и запоминаем разницу между текущим и предыдущим решениями
             double newDifference = iterate();
