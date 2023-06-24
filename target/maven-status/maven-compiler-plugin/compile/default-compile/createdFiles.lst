@@ -1,0 +1,9 @@
+Interpolation.class
+Main.class
+Polinom.class
+Grid.class
+Function.class
+Lagrange.class
+Newton.class
+Polinom$Monom.class
+Grid$Node.class

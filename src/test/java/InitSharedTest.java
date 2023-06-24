@@ -5,10 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class InitSharedTest {
 
     @Test
-    void print() {
+    void test() {
+        System.out.println("hello1");
     }
 
-    @Test
-    void printWithoutFunValue() {
-    }
 }

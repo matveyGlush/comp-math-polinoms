@@ -1,12 +1,6 @@
 public class Main {
     public static void main(String[] args) {
-        init1();
         init2();
-        init3();
-        init4();
-        init5();
-        init6();
-        initMultiply();
     }
 
     private static void initMultiply() {
@@ -15,7 +9,8 @@ public class Main {
 
         double[][] polinom2Parametrs = { {1, 4}, {1, 1} };
         Polinom polinom2 = new Polinom(polinom2Parametrs);
-
+        System.out.println();
+        System.out.println("Перемножение двух произвольных полиномов: ");
         polinom2.multiply(polinom1);
         polinom2.print();
     }
@@ -26,7 +21,7 @@ public class Main {
         double a = 0;
         double b = 1;
         // количество точек в сетке
-        int count = 6;
+        int count = 7;
         // вычисляем расстояние между соседними точками
         double step = (b - a) / count;
         // создаем массив точек на оси X
@@ -36,7 +31,7 @@ public class Main {
             x[i] = a + step * i;
         }
         // создаем объект Grid для этой сетки
-        Grid grid = new Grid(x, o -> (o*o*o*o*o + 37*o*o*o*o - 16*o + 1));
+        Grid grid = new Grid(x, o -> (o*o*o*o*o*o*3.8332 - 6.7677*o*o*o - 0.0023*o));
         // передаем объект Grid в метод initShared() для интерполяции
         initShared(grid, true);
     }
@@ -57,7 +52,7 @@ public class Main {
             x[i] = a + step * i;
         }
         // создаем объект Grid для этой сетки
-        Grid grid = new Grid(x, o -> (Math.sin(o * o / 2)));
+        Grid grid = new Grid(x, o -> (Math.sin((o * o) / 2)));
         // передаем объект Grid в метод initShared() для интерполяции
         initShared(grid, true);
     }
