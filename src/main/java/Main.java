@@ -1,6 +1,11 @@
 public class Main {
     public static void main(String[] args) {
-        init3();
+//        init1();
+//        init2();
+//        init3();
+//        init4();
+//        init5();
+        initMultiply();
     }
 
     private static void initMultiply() {
@@ -77,7 +82,6 @@ public class Main {
     private static void init5() {
         // начальная и конечная точки сетки
         double a = 0;
-        double b = 5;
         // количество точек в сетке
         int count = 6;
         // вычисляем расстояние между соседними точками
