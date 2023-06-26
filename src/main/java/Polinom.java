@@ -1,6 +1,6 @@
 public class Polinom {
 
-    private class Monom {
+    class Monom {
         double coeff; // коэффициент
         int degree; // степень
         Monom next; // следующий моном
@@ -22,7 +22,7 @@ public class Polinom {
         }
     }
 
-    private Monom head; // головной элемент (первый моном) полинома
+    protected Monom head; // головной элемент (первый моном) полинома
     private static final double ZERO = 1e-9; // константа для сравнения вещественных чисел с нулем
 
     // Конструктор по умолчанию
